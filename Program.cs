@@ -12,48 +12,28 @@ namespace Calculator
             Console.WriteLine("Hi there, " + name + "!" + " This is a calculator app.");
 
             string? value = null;
-            int firstUserInputTryCount = 0;
-            int secondUserInputTryCount = 0;
+            int max_tries = 3;
 
             do
             {
                 int result;
 
-            firstUserInputLabel:
-                Console.Write("Enter first number: ");
-                string? firstUserInput = Console.ReadLine();
+                var num1 = 0;
+                var currentTryCount = 0;
+                num1 = GetUserInput("Enter first number: ", max_tries, ref currentTryCount);
 
-                if (int.TryParse(firstUserInput, out int num1) == false)
+                if (num1 == 0 && currentTryCount == max_tries)
                 {
-                    firstUserInputTryCount += 0;
-                    Console.WriteLine("Invalid input: {0}", firstUserInput);
-
-                    if (firstUserInputTryCount <= 3)
-                    {
-                        goto firstUserInputLabel;
-                    }
-                    else
-                    {
-                        goto AskDoYouWantToContinue;
-                    }
+                    goto AskDoYouWantToContinue;
                 }
 
-            secondUserInputLabel:
-                Console.Write("Enter second number: ");
-                string? secondUserInput = Console.ReadLine();
+                var num2 = 0;
+                currentTryCount = 0;
+                num2 = GetUserInput("Enter second number: ", max_tries, ref currentTryCount);
 
-                if (int.TryParse(secondUserInput, out int num2) == false)
+                if (num2 == 0 && currentTryCount == max_tries)
                 {
-                    secondUserInputTryCount += 0;
-                    Console.WriteLine("Invalid input: {0}", secondUserInput);
-                    if (firstUserInputTryCount <= 3)
-                    {
-                        goto secondUserInputLabel;
-                    }
-                    else
-                    {
-                        goto AskDoYouWantToContinue;
-                    }
+                    goto AskDoYouWantToContinue;
                 }
 
                 Console.WriteLine("You have entered {0}, {1}", num1, num2);
@@ -61,29 +41,9 @@ namespace Calculator
                 Console.Write("Now enter '+' to add these numbers; '-' to subtract; '*' to multiply; or '/' to divide: ");
                 string? symbol = Console.ReadLine();
 
-                switch (symbol)
-                {
-                    case "+":
-                        result = num1 + num2;
-                        Console.WriteLine("Result: " + result);
-                        goto AskDoYouWantToContinue;
+                result = Calculate(num1, num2, symbol);
+                Console.WriteLine($"The result is: {num1}{symbol}{num2} = {result}");
 
-                    case "-":
-                        result = num1 - num2;
-                        Console.WriteLine("Result: " + result);
-                        goto AskDoYouWantToContinue;
-
-                    case "*":
-                        result = num1 * num2;
-                        Console.WriteLine("Result: " + result);
-                        goto AskDoYouWantToContinue;
-
-                    case "/":
-                        result = num1 / num2;
-                        Console.WriteLine("Result: " + result);
-                        goto AskDoYouWantToContinue;
-                }
-                Console.ReadLine();
                 AskDoYouWantToContinue:
                 Console.Write("Do you want to continue (Y / N):");
                 value = Console.ReadLine();
@@ -91,6 +51,61 @@ namespace Calculator
             while (value == "y" || value == "Y");
         }
 
+        private static int GetUserInput(string messageOnTheScreen, int maxTryCount, ref int currentTryCount)
+        {
+            int userInputNumber = 0;
 
+            while (currentTryCount < maxTryCount)
+            {
+                Console.Write(messageOnTheScreen);
+                string? userInput = Console.ReadLine();
+
+                currentTryCount += 1;
+
+                if (int.TryParse(userInput, out userInputNumber) == false)
+                {
+                    Console.WriteLine("Attempt {0}. Invalid input: {1}", currentTryCount, userInput);
+                }
+                else
+                {
+                    // if we can successfully parse user input, meaning it's a valid number, then break out of the while loop
+                    break;
+                }
+            }
+
+            return userInputNumber;
+        }
+
+        private static int Calculate(int num1, int num2, string? opSymbol)
+        {
+            int result = 0;
+
+            if(opSymbol is null)
+            {
+                return result;
+            }
+
+            switch (opSymbol)
+            {
+                case "+":
+                    result = num1 + num2;
+                    Console.WriteLine("Result: " + result);
+                    break;
+                case "-":
+                    result = num1 - num2;
+                    Console.WriteLine("Result: " + result);
+                    break;
+                case "*":
+                    result = num1 * num2;
+                    Console.WriteLine("Result: " + result);
+                    break;
+                case "/":
+                    result = num1 / num2;
+                    Console.WriteLine("Result: " + result);
+                    break;
+            }
+
+            return result;
+        }
     }
 }
