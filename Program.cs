@@ -12,6 +12,9 @@ namespace Calculator
             Console.WriteLine("Hi there, " + name + "!" + " This is a calculator app.");
 
             string? value = null;
+            int firstUserInputTryCount = 0;
+            int secondUserInputTryCount = 0;
+
             do
             {
                 int result;
@@ -20,13 +23,11 @@ namespace Calculator
                 Console.Write("Enter first number: ");
                 string? firstUserInput = Console.ReadLine();
 
-                int firstUserInputTryCount = 0;
-
                 if (int.TryParse(firstUserInput, out int num1) == false)
                 {
+                    firstUserInputTryCount += 0;
                     Console.WriteLine("Invalid input: {0}", firstUserInput);
-                    firstUserInputTryCount += 1;
-                    Console.WriteLine("firstUserInputTryCount: "+ firstUserInputTryCount);
+
                     if (firstUserInputTryCount <= 3)
                     {
                         goto firstUserInputLabel;
@@ -39,12 +40,20 @@ namespace Calculator
 
             secondUserInputLabel:
                 Console.Write("Enter second number: ");
-                string? secondUserInputLabel = Console.ReadLine();
+                string? secondUserInput = Console.ReadLine();
 
-                if (int.TryParse(secondUserInputLabel, out int num2) == false)
+                if (int.TryParse(secondUserInput, out int num2) == false)
                 {
-                    Console.WriteLine("Invalid input: {0}", secondUserInputLabel);
-                    goto secondUserInputLabel;
+                    secondUserInputTryCount += 0;
+                    Console.WriteLine("Invalid input: {0}", secondUserInput);
+                    if (firstUserInputTryCount <= 3)
+                    {
+                        goto secondUserInputLabel;
+                    }
+                    else
+                    {
+                        goto AskDoYouWantToContinue;
+                    }
                 }
 
                 Console.WriteLine("You have entered {0}, {1}", num1, num2);
@@ -57,32 +66,22 @@ namespace Calculator
                     case "+":
                         result = num1 + num2;
                         Console.WriteLine("Result: " + result);
-                        Console.Write("Do you want to continue (Y / N):");
-                        value = Console.ReadLine();
-                        break;
+                        goto AskDoYouWantToContinue;
+
                     case "-":
                         result = num1 - num2;
                         Console.WriteLine("Result: " + result);
-                        Console.Write("Do you want to continue (Y / N):");
-                        value = Console.ReadLine();
-                        break;
+                        goto AskDoYouWantToContinue;
+
                     case "*":
                         result = num1 * num2;
                         Console.WriteLine("Result: " + result);
-                        Console.Write("Do you want to continue (Y / N):");
-                        value = Console.ReadLine();
-                        break;
+                        goto AskDoYouWantToContinue;
+
                     case "/":
                         result = num1 / num2;
                         Console.WriteLine("Result: " + result);
-                        Console.Write("Do you want to continue (Y / N):");
-                        value = Console.ReadLine();
-                        break;
-                    default:
-                        Console.WriteLine("Wrong input");
-                        Console.Write("Do you want to continue (Y / N):");
-                        value = Console.ReadLine();
-                        break;
+                        goto AskDoYouWantToContinue;
                 }
                 Console.ReadLine();
                 AskDoYouWantToContinue:
