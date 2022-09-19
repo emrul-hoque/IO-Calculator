@@ -42,7 +42,7 @@ namespace Calculator
                 string? symbol = Console.ReadLine();
 
                 result = Calculate(num1, num2, symbol);
-                Console.WriteLine($"The result is: {num1}{symbol}{num2} = {result}");
+                Console.WriteLine($"The result is: {num1} {symbol} {num2} = {result}");
 
                 AskDoYouWantToContinue:
                 Console.Write("Do you want to continue (Y / N):");
@@ -78,15 +78,8 @@ namespace Calculator
 
         private static int Calculate(int num1, int num2, string? opSymbol)
         {
-            int result = 0;
-
-            if(opSymbol is null)
-            {
-                return result;
-            }
-
             // pattern matching using switch
-            result = opSymbol switch {
+            int result = opSymbol switch {
                 "+" => num1 + num2,
                 "-" => num1 - num2,
                 "*" => num1 * num2,
