@@ -23,13 +23,16 @@ namespace Calculator
                 Console.Write("Enter first number: ");
                 string? firstUserInput = Console.ReadLine();
 
+
                 if (int.TryParse(firstUserInput, out int num1) == false)
                 {
-                    firstUserInputTryCount += 0;
+
                     Console.WriteLine("Invalid input: {0}", firstUserInput);
 
-                    if (firstUserInputTryCount <= 3)
+                    if (firstUserInputTryCount < 2)
                     {
+                        firstUserInputTryCount += 1;
+
                         goto firstUserInputLabel;
                     }
                     else
@@ -44,10 +47,11 @@ namespace Calculator
 
                 if (int.TryParse(secondUserInput, out int num2) == false)
                 {
-                    secondUserInputTryCount += 0;
+                    
                     Console.WriteLine("Invalid input: {0}", secondUserInput);
-                    if (firstUserInputTryCount <= 3)
+                    if (firstUserInputTryCount < 2)
                     {
+                        secondUserInputTryCount += 1;
                         goto secondUserInputLabel;
                     }
                     else
@@ -84,7 +88,7 @@ namespace Calculator
                         goto AskDoYouWantToContinue;
                 }
                 Console.ReadLine();
-                AskDoYouWantToContinue:
+            AskDoYouWantToContinue:
                 Console.Write("Do you want to continue (Y / N):");
                 value = Console.ReadLine();
             }
