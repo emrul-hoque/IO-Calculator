@@ -85,26 +85,15 @@ namespace Calculator
                 return result;
             }
 
-            switch (opSymbol)
-            {
-                case "+":
-                    result = num1 + num2;
-                    Console.WriteLine("Result: " + result);
-                    break;
-                case "-":
-                    result = num1 - num2;
-                    Console.WriteLine("Result: " + result);
-                    break;
-                case "*":
-                    result = num1 * num2;
-                    Console.WriteLine("Result: " + result);
-                    break;
-                case "/":
-                    result = num1 / num2;
-                    Console.WriteLine("Result: " + result);
-                    break;
-            }
-
+            // pattern matching using switch
+            result = opSymbol switch {
+                "+" => num1 + num2,
+                "-" => num1 - num2,
+                "*" => num1 * num2,
+                "/" => num1 / num2,             
+                _ => 0
+            };
+            
             return result;
         }
     }
